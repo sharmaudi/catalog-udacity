@@ -1,0 +1,10 @@
+{% extends 'layouts/base.html' %}
+
+{% block header %}
+  <a href="{{ url_for('catalog.home') }}">
+    <img src="{{ url_for('static', filename='images/logo.png') }}"
+         class="img-responsive center-block md-margin-bottom"
+         width="150" height="150" title="Logo" alt="Logo"/>
+  </a>
+{% endblock %}
+

@@ -1,0 +1,35 @@
+{% extends 'layouts/login.html' %}
+{% import 'macros/form.html' as f with context %}
+
+{% block title %}Sign in to access your account{% endblock %}
+
+{% block body %}
+    <div class="row">
+
+        {% if 'GOOGLE' in config.get('OAUTH_CONFIG') %}
+        <div class="col-md-4 col-xs-8 col-xs-offset-2 col-md-offset-4 social-btn-container">
+            <a href="{{ url_for("google.login") }}" class="btn-lg btn-block btn-social btn-google">
+                <span class="fa fa-google"></span> Sign in with Google
+            </a>
+        </div>
+        {% endif %}
+
+        {#Facebook login only available if Facebook app token is presnt#}
+        {% if 'FACEBOOK' in config.get('OAUTH_CONFIG') and config['FACEBOOK_APP_TOKEN'] %}
+            <div class="col-md-4 col-xs-8 col-xs-offset-2 col-md-offset-4 social-btn-container">
+                <a href="{{ url_for("facebook.login") }}" class="btn-lg btn-block btn-social btn-facebook">
+                    <span class="fa fa-facebook"></span> Sign in with Facebook
+                </a>
+            </div>
+        {% endif %}
+
+        {% if 'GITHUB' in config.get('OAUTH_CONFIG') %}
+        <div class="col-md-4 col-xs-8 col-xs-offset-2 col-md-offset-4 social-btn-container">
+            <a href="{{ url_for("github.login") }}" class="btn-lg btn-block btn-social btn-github">
+                <span class="fa fa-github"></span> Sign in with Github
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+{% endblock %}
