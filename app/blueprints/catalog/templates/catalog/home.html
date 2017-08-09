@@ -4,7 +4,10 @@
 {% block meta_description %}Home Page of the Catalog app{% endblock %}
 
 {% block body %}
+
     <div class="container">
+
+
 
         <div class="row row-offcanvas row-offcanvas-right">
 
@@ -14,7 +17,7 @@
                 </p>
                 <div class="jumbotron">
                     {% if not selected_category %}
-                        <h3 class="text-center">Recently added items</h3>
+                        <h3 class="text-center">Recent items</h3>
                     {% else %}
                         <h3 class="text-center">{{ selected_category.name }}</h3>
                         <p class="text-center">{{ selected_category.description }}</p>
@@ -72,7 +75,7 @@
             {% if current_user.is_authenticated %}
             <div class="row"><div class="col-md-4 sm-margin-top">
 
-                <button class="btn btn-default btn-lg">Add new Item</button>
+                <a class="btn btn-default btn-lg" href="{{ url_for('catalog.add_item') }}">Add new Item</a>
 
             </div></div>
             {% endif %}

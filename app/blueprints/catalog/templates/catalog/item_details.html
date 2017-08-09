@@ -5,35 +5,56 @@
 
 
 {% block body %}
-<div class="container">
-    {% if current_user.is_authenticated %}
-    <div class="row">
-        <div class="col-md-1 pull-right">
-            <a class="btn btn-default" href="#">Edit</a>
-        </div>
-        <div class="col-md-1 pull-right">
-            <a class="btn btn-default" href="#">Delete</a>
-        </div>
-    </div>
-    {% endif %}
 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h3 class="">{{ item.name|upper() }}</h3>
+                                <h5>Category: {{ item.category.name }}</h5>
+                                <p>{{ item.description }}</p>
+                            </div>
+                            <div class="col-md-3">
+                                {% if item.image %}
 
-    <div class="row sm-margin-top">
-        <div class="col-md-12">
-            <div class="jumbotron">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3 class="">{{ item.name|upper() }}</h3>
-                            <h5 >Category: {{ item.category.name }}</h5>
-                            <p>{{ item.description }}</p>
-
+                                    <div class="thumbnail ">
+                                        <img src="{{ item.image }}?{{ item.name|random }}" alt="300x200"
+                                             data-src="holder.js/300x200" style="">
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
-        </div>
-    </div>
 
-</div>
+        {% if current_user.is_authenticated %}
+            <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                    <div class="btn-group btn-group-justified">
+                            <a class="btn btn-info"
+                       href="{{ url_for('catalog.edit_item', category=item.category.name, item=item.name) }}">Edit
+                        Item </a>
+                            <a class="btn btn-info "
+                       href="{{ url_for('catalog.upload_image', category=item.category.name, item=item.name) }}">Upload
+                        Image</a>
+
+                        <a class="btn btn-warning "
+                       href="{{ url_for('catalog.delete_item', category=item.category.name, item=item.name) }}">Delete
+                        Item</a>
+
+                    </div>
+
+
+            </div>
+        {% endif %}
+
+        </div>
 {% endblock %}

@@ -5,6 +5,7 @@ import click
 import pytz as pytz
 import requests
 from flask import Flask, render_template, session, flash
+from flask_breadcrumbs import Breadcrumbs
 from flask_dance.consumer import oauth_authorized
 from flask_dance.consumer.backend.sqla import SQLAlchemyBackend
 from flask_dance.contrib.facebook import make_facebook_blueprint
@@ -35,6 +36,8 @@ def create_app(settings_override=None):
              f"{app.config['DB_HOST']}:{app.config['DB_PORT']}/{app.config['DB_NAME']}"
 
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+
+    app.config['TESTING'] = False
 
     print(app.config)
     error_templates(app)
@@ -100,6 +103,7 @@ def extensions(app):
     csrf.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
+    Breadcrumbs(app=app)
     return None
 
 

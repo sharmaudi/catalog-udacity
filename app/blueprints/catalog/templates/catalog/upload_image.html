@@ -1,0 +1,54 @@
+{% extends 'layouts/app.html' %}
+{% import 'macros/form.html' as f with context %}
+
+{% block title %}
+   Upload Image
+{% endblock %}
+
+
+
+
+{% block body %}
+   <div class="container image-container sm-margin-top">
+            <div class="row sm-margin-top">
+                    <div class="col-md-8 col-md-offset-2">
+                        <strong>Current Image</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="thumbnail ">
+                            <img src="{{ item.image }}" alt="300x200" data-src="holder.js/300x200" style="">
+                        </div>
+                    </div>
+                </div>
+                <form method="post" action="{{ url_for('catalog.upload_image', item=item.name, category=item.category.name) }}" enctype="multipart/form-data">
+                    <div class="row sm-margin-top">
+                        <div class="col-md-8 col-md-offset-2">
+                            <strong>Upload New Image</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+                            <div class="input-group image-preview">
+                                <input type="text" class="form-control image-preview-filename" disabled="disabled">
+                                <span class="input-group-btn">
+                                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+
+                                    <span class="glyphicon glyphicon-remove"></span> Clear
+                                </button>
+                                <div class="btn btn-default image-preview-input">
+                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                    <span class="image-preview-input-title">Browse</span>
+                                    <input type="file" name="image" accept="image/png, image/jpeg, image/gif" id="input-file-preview" />
+                                </div>
+                                <span class="image-preview-upload-title">
+                                    <button type="submit" class="btn btn-default">Upload</button>
+                                </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+{% endblock %}
