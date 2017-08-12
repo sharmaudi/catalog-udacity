@@ -11,13 +11,8 @@ SERVER_NAME = 'localhost:8000'
 # Should be overriden using instance properties
 SECRET_KEY = 'ASecretStringGoesHere!!'
 
-# Database properties. db_password will be overriden using instance properties.
-DB_DIALECT = 'postgres'
-DB_USER = 'vagrant'
-DB_PASSWORD = 'Welcome123'
-DB_HOST = 'localhost'
-DB_PORT = '5432'
-DB_NAME = 'catalog'
+# Database properties.
+SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/database.db"
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # OAuth config for various providers. Override in instance properties
@@ -39,9 +34,6 @@ OAUTH_CONFIG = {
 # Disable this for production like environments
 OAUTHLIB_INSECURE_TRANSPORT = "1"
 
-
-# SQLite for development environment. Override in instance.
-SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/database.db"
 
 # Disable redirect interception.
 DEBUG_TB_INTERCEPT_REDIRECTS = False

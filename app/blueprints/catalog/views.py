@@ -1,19 +1,19 @@
-import bleach
 import os
-
 import time
-from flask import Blueprint, render_template, flash, redirect, url_for, request, current_app, send_from_directory
+
+import bleach
+from flask import Blueprint, render_template, flash, redirect, url_for, request, current_app, send_from_directory, \
+    jsonify
 from flask_breadcrumbs import register_breadcrumb, default_breadcrumb_root
 from flask_login import login_required
 from markupsafe import Markup
 from werkzeug.utils import secure_filename
 
 from app.blueprints.catalog.forms import ItemForm, UploadForm
-from app.extensions import csrf
-from app.mixins.util_wtforms import  choices_from_dict
-from config.settings import ITEMS_PER_PAGE
-
 from app.blueprints.catalog.models import Category, Item
+from app.extensions import csrf
+from app.mixins.util_wtforms import choices_from_dict
+from config.settings import ITEMS_PER_PAGE
 
 catalog = Blueprint('catalog', __name__, template_folder='templates')
 default_breadcrumb_root(catalog, '.')
@@ -39,10 +39,12 @@ def edit_item_dlc(*args, **kwargs):
     item = request.view_args['item']
     return [{'text': f"Edit", 'url': url_for('catalog.edit_item', category=category, item=item)}]
 
+
 def upload_item_dlc(*args, **kwargs):
     category = request.view_args['category']
     item = request.view_args['item']
     return [{'text': f"Upload", 'url': url_for('catalog.upload_image', category=category, item=item)}]
+
 
 def delete_item_dlc(*args, **kwargs):
     category = request.view_args['category']
@@ -110,21 +112,19 @@ def edit_item(category, item):
     form = ItemForm(obj=selected_item)
     form.category_id.choices = choices_from_dict(Category.get_categories_as_dict())
     if form.validate_on_submit():
-
-        # Not sure whether this is required as flask-wtf should already be sanitizing the data
-        form.description = bleach.clean(form.description)
-        form.name = bleach.clean(form.name)
-
-        form.populate_obj(selected_item)
         print(f"Item current state ${selected_item}")
+        selected_item.description = bleach.clean(form.description.data)
+        selected_item.name = bleach.clean(form.name.data)
+        selected_item.category_id = form.category_id.data
         selected_item.save()
-        print(f"Updating item to ${item}")
+        print(f"Updated item state ${selected_item}")
         flash("Item Updated Successfully", "success")
         return redirect(url_for('catalog.edit_item', category=selected_item.category.name, item=selected_item.name))
 
     return render_template('catalog/item_create_or_update.html',
                            item=selected_item,
-                           form=form)
+                           form=form,
+                           oper="edit")
 
 
 @catalog.route('/catalog/<string:category>/items/<string:item>/edit/upload', methods=['GET', 'POST'])
@@ -165,14 +165,23 @@ def upload_image(category, item):
 def delete_item(category, item):
     selected_item = Item.get_item(category, item)
     confirm_flag = request.args.get('confirm')
+
+    markup = "Please confirm that you " \
+             "want to delete Item " \
+             "{}? <a href='{}?confirm=true'>" \
+             "Confirm</a>"
+
     if confirm_flag and "true".lower() == confirm_flag.lower():
         selected_item.delete()
         flash("Item has been deleted.")
         return redirect(url_for('catalog.home', category=category))
     else:
-        confirm_msg = Markup(f"Please confirm that you want to delete item {selected_item.name}?"
-                             f" <a href={url_for('catalog.delete_item', category=category, item=item)}?confirm=true>Confirm</a>")
-        flash(confirm_msg,"info")
+        flash_message = markup.format(selected_item.name,
+                                      url_for('catalog.delete_item',
+                                              category=category,
+                                              item=item))
+        confirm_msg = Markup(flash_message)
+        flash(confirm_msg, "info")
         return render_template('catalog/item_details.html', item=selected_item)
 
 
@@ -180,3 +189,10 @@ def delete_item(category, item):
 def uploaded_file(filename):
     return send_from_directory(f'{current_app.instance_path}/uploads',
                                filename)
+
+
+@catalog.route('/api/v1/catalog')
+def catalog_as_json():
+    categories = Category.query.all()
+    result = [category.serialize for category in categories]
+    return jsonify(result)

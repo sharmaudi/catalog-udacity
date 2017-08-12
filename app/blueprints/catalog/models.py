@@ -1,4 +1,4 @@
-from sqlalchemy import func
+from sqlalchemy import func, UniqueConstraint
 
 from app.extensions import db
 from app.mixins.sqlalchemy_resource_mixin import ResourceMixin
@@ -9,6 +9,10 @@ class Category(db.Model, ResourceMixin):
     name = db.Column(db.String(256), unique=True)
     description = db.Column(db.String(), unique=False)
     image = db.Column(db.String())
+
+    def __init__(self, **kwargs):
+        # Call Flask-SQLAlchemy's constructor.
+        super(Category, self).__init__(**kwargs)
 
     @classmethod
     def category_details(cls, name):
@@ -25,6 +29,18 @@ class Category(db.Model, ResourceMixin):
     def get_items(self):
         return Item.query.join(Category).filter(Category.id == self.id)
 
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'image': self.image,
+            'created_on': self.created_on,
+            'updated_on': self.updated_on,
+            'items': [item.serialize for item in self.get_items()]
+        }
+
 
 class Item(db.Model, ResourceMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -33,6 +49,9 @@ class Item(db.Model, ResourceMixin):
     image = db.Column(db.String())
     category_id = db.Column(db.Integer, db.ForeignKey(Category.id))
     category = db.relationship(Category)
+
+    __table_args__ = (UniqueConstraint('name', 'category_id', name='_item_category_uc'),
+                      )
 
     def __init__(self, **kwargs):
         # Call Flask-SQLAlchemy's constructor.
@@ -43,4 +62,16 @@ class Item(db.Model, ResourceMixin):
         return Item.query.join(Category). \
             filter(func.lower(Category.name) == func.lower(category_name)). \
             filter(func.lower(Item.name) == func.lower(item_name)).one()
+
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'image': self.image,
+            'created_on': self.created_on,
+            'updated_on': self.updated_on
+        }
+
 

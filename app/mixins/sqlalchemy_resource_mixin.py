@@ -1,38 +1,16 @@
 import datetime
 
-import pytz
-from sqlalchemy import DateTime
-from sqlalchemy.types import TypeDecorator
-
 
 from app.extensions import db
 
 
-class AwareDateTime(TypeDecorator):
-    """
-       A DateTime type which can only store tz-aware DateTimes.
-
-       Source:
-         https://gist.github.com/inklesspen/90b554c864b99340747e
-       """
-    impl = DateTime(timezone=True)
-
-    def process_bind_param(self, value, dialect):
-        if isinstance(value, datetime.datetime) and value.tzinfo is None:
-            raise ValueError('{!r} must be TZ-aware'.format(value))
-        return value
-
-    def __repr__(self):
-        return 'AwareDateTime()'
-
-
 class ResourceMixin(object):
     # Keep track when records are created and updated.
-    created_on = db.Column(AwareDateTime(),
-                           default=datetime.datetime.now(pytz.utc))
-    updated_on = db.Column(AwareDateTime(),
-                           default=datetime.datetime.now(pytz.utc),
-                           onupdate=datetime.datetime.now(pytz.utc))
+    created_on = db.Column(db.DateTime(),
+                           default=datetime.datetime.utcnow())
+    updated_on = db.Column(db.DateTime(),
+                           default=datetime.datetime.utcnow(),
+                           onupdate=datetime.datetime.utcnow())
 
     def save(self):
         """

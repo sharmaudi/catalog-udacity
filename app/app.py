@@ -32,11 +32,6 @@ def create_app(settings_override=None):
     app.config.from_object('config.settings')
     app.config.from_pyfile('settings.py', silent=True)
 
-    db_uri = f"{app.config['DB_DIALECT']}://{app.config['DB_USER']}:{app.config['DB_PASSWORD']}@" \
-             f"{app.config['DB_HOST']}:{app.config['DB_PORT']}/{app.config['DB_NAME']}"
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-
     app.config['TESTING'] = False
 
     print(app.config)
