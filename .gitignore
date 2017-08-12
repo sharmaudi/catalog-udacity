@@ -57,7 +57,6 @@ coverage.xml
 local_settings.py
 
 # Flask stuff:
-instance/
 .webassets-cache
 
 # Scrapy stuff:
@@ -97,6 +96,7 @@ ENV/
 
 .venv/
 test.py
-!/instance/settings.py.example
-!/instance/uploads/README
 app/images/
+!/instance/
+/instance/uploads/*.jpg
+/instance/settings.py
