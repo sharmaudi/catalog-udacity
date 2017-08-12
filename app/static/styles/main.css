@@ -374,3 +374,7 @@ body {
 .breadcrumb-arrow li span {
     color: #434a54
 }
+
+.extra-height {
+    min-height: 400px;
+}
