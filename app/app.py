@@ -1,7 +1,6 @@
 import datetime
 import os
 
-import click
 import pytz as pytz
 import requests
 from flask import Flask, render_template, session, flash
@@ -13,7 +12,6 @@ from flask_dance.contrib.github import make_github_blueprint
 from flask_dance.contrib.google import make_google_blueprint
 from flask_login import current_user, login_user
 from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy_utils import database_exists, create_database
 from werkzeug.contrib.fixers import ProxyFix
 
 from app.blueprints.catalog.views import catalog
@@ -33,7 +31,6 @@ def create_app():
 
     app.config['TESTING'] = False
 
-    print(app.config)
     error_templates(app)
     middleware(app)
     extensions(app)
@@ -42,7 +39,6 @@ def create_app():
     init_oauth_providers(app)
     template_processors(app)
     authentication(app)
-    register_commands(app)
 
     return app
 
@@ -131,29 +127,21 @@ def template_processors(app):
     return app.jinja_env
 
 
-def register_commands(app):
-    @app.cli.command()
-    @click.option('--with-testdb/--no-with-testdb', default=False,
-                  help='Create a test db too?')
-    def initdb(with_testdb):
-        """Initialize the database."""
-        click.echo('Initializing db')
-        db.drop_all()
-        db.create_all()
-
-        if with_testdb:
-            db_uri = '{0}_test'.format(app.config['SQLALCHEMY_DATABASE_URI'])
-
-            if not database_exists(db_uri):
-                create_database(db_uri)
-
-        return None
-
-
 def init_oauth_providers(app):
     # OAuth blueprints
+    """
+    Registers 0 or more OAuth providers (mutates the app passed in).
+    :param app:
+    """
+
+    # Normally, OAuthLib will raise an InsecureTransportError if you attempt to use OAuth2  over HTTP, rather than
+    # HTTPS. Setting this environment variable will prevent this error from being raised. This is mostly useful for
+    # local development and testing. Never set this variable in production.
     if app.config['OAUTHLIB_INSECURE_TRANSPORT']:
         os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = "1"
+
+        # From Flask-Dance documentation: You also must set the OAUTHLIB_RELAX_TOKEN_SCOPE environment variable to
+        # account for Google changing the requested OAuth scopes on you.
         os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = "1"
 
     if 'GOOGLE' in app.config.get('OAUTH_CONFIG'):
@@ -168,6 +156,11 @@ def init_oauth_providers(app):
 
 def register_google_blueprint(app):
     # Google
+    """
+    Registers the google blueprint implemented by flask dance.
+    :param app:
+    :return:
+    """
     client_id = app.config.get('OAUTH_CONFIG')['GOOGLE']['client_id']
     client_secret = app.config.get('OAUTH_CONFIG')['GOOGLE']['client_secret']
     google_blueprint = make_google_blueprint(
@@ -220,6 +213,7 @@ def register_facebook_blueprint(app):
     else:
         print("Facebook app token not found in config. Facebook blueprint not configured.")
 
+    # create/login local user on successful OAuth login
     @oauth_authorized.connect_via(facebook_blueprint)
     def facebook_logged_in(blueprint, token):
         if not token:
@@ -259,6 +253,7 @@ def register_github_blueprint(app):
     github_blueprint.backend = SQLAlchemyBackend(OAuth, db.session, user=current_user)
     app.register_blueprint(github_blueprint, url_prefix="/login")
 
+    # create/login local user on successful OAuth login
     @oauth_authorized.connect_via(github_blueprint)
     def github_logged_in(blueprint, token):
         if not token:
@@ -286,6 +281,11 @@ def register_github_blueprint(app):
 
 
 def get_facebook_app_token(app):
+    """
+    Gets the facebook app token from the app config. If not found in
+    the config, it fetches it from facebook and sets it in the app config.
+    :rtype: String containing facebook app token
+    """
     if "FACEBOOK_APP_TOKEN" in app.config and app.config["FACEBOOK_APP_TOKEN"]:
         app_token = app.config["FACEBOOK_APP_TOKEN"]
     else:
@@ -298,6 +298,4 @@ def get_facebook_app_token(app):
             app.config["FACEBOOK_APP_TOKEN"] = app_token
         else:
             app_token = None
-
     return app_token
-
