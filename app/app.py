@@ -22,10 +22,9 @@ from app.blueprints.user.views import user_blueprint
 from app.extensions import login_manager, csrf, debug_toolbar, db
 
 
-def create_app(settings_override=None):
+def create_app():
     """
     Creates a flask application using the App Factory pattern
-    :param settings_override: Override default settings.
     :return: Flask app
     """
     app = Flask(__name__, instance_relative_config=True)
@@ -42,7 +41,7 @@ def create_app(settings_override=None):
     app.register_blueprint(user_blueprint)
     init_oauth_providers(app)
     template_processors(app)
-    authentication(app, User)
+    authentication(app)
     register_commands(app)
 
     return app
@@ -102,13 +101,11 @@ def extensions(app):
     return None
 
 
-def authentication(app, user_model):
+def authentication(app):
     """
     Initialize the Flask-Login extension (mutates the app passed in).
 
     :param app: Flask application instance
-    :param user_model: Model that contains the authentication information
-    :type user_model: SQLAlchemy model
     :return: None
     """
     login_manager.login_view = 'user.login'

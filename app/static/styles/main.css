@@ -33,6 +33,7 @@ body {
 
 /* Margin and padding
 -------------------------------------------------- */
+/*noinspection CssUnusedSymbol*/
 .lg-margin-bottom {
   margin-bottom: 60px;
 }
@@ -41,6 +42,7 @@ body {
   margin-bottom: 40px;
 }
 
+/*noinspection CssUnusedSymbol*/
 .lg-margin-top {
   margin-top: 60px;
 }
@@ -60,10 +62,12 @@ body {
   font-size: 12px;
 }
 
+/*noinspection CssUnusedSymbol*/
 .strike {
   text-decoration: line-through;
 }
 
+/*noinspection CssUnusedSymbol*/
 .spinner {
   display: none;
 }
@@ -72,10 +76,12 @@ body {
   transform: scale(1.05);
 }
 
+/*noinspection CssUnusedSymbol*/
 .quarter-faded {
   opacity: 0.75;
 }
 
+/*noinspection CssUnusedSymbol*/
 .half-faded {
   opacity: 0.5;
 }
@@ -94,11 +100,13 @@ label {
   margin-left: 0;
 }
 
+/*noinspection CssUnusedSymbol*/
 .alert-small {
   padding: 5px;
   margin-bottom: 0;
 }
 
+/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
 .alert-error, .alert-message {
   color: #a94442;
   background-color: #f2dede;
@@ -109,6 +117,7 @@ label {
   border-top-color: #e4b9c0;
 }
 
+/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
 .alert-error .alert-link, .alert-message .alert-link {
   color: #843534;
 }
@@ -183,16 +192,18 @@ body {
     right: 0;
   }
 
-  .row-offcanvas-left {
+    /*noinspection CssUnusedSymbol*/
+    .row-offcanvas-left {
     left: 0;
   }
 
-  .row-offcanvas-right
+  .row-offcanvas-right,
   .sidebar-offcanvas {
     right: -60%; /* 6 columns */
   }
 
-  .row-offcanvas-left
+    /*noinspection CssUnusedSymbol*/
+    .row-offcanvas-left,
   .sidebar-offcanvas {
     left: -60%; /* 6 columns */
   }
@@ -201,7 +212,8 @@ body {
     right: 60%; /* 6 columns */
   }
 
-  .row-offcanvas-left.active {
+    /*noinspection CssUnusedSymbol*/
+    .row-offcanvas-left.active {
     left: 60%; /* 6 columns */
   }
 
@@ -271,7 +283,7 @@ body {
 .image-preview-input {
     position: relative;
 	overflow: hidden;
-	margin: 0px;
+	margin: 0;
     color: #333;
     background-color: #fff;
     border-color: #ccc;
@@ -291,7 +303,7 @@ body {
     margin-left:2px;
 }
 
-
+/*noinspection CssUnusedSymbol*/
 .breadcrumb-arrow {
     height: 36px;
     padding: 0;
@@ -348,9 +360,7 @@ body {
 .breadcrumb-arrow li a:before {
     right: -10px;
     z-index: 3;
-    border-left-color: #3bafda;
-    border-left-style: solid;
-    border-left-width: 11px
+    border-left: 11px solid #3bafda;
 }
 .breadcrumb-arrow li a:after {
     right: -11px;

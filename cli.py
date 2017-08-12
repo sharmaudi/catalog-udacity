@@ -56,10 +56,10 @@ def seed_data():
     _seed_catalog()
 
 
+# noinspection PyTypeChecker
 def _seed_catalog():
     with open('catalog.json') as catalog_file:
         catalog = json.load(catalog_file)
-
 
     categories = []
     items = []
@@ -90,6 +90,7 @@ def _seed_catalog():
 
 def _get_date(string):
     return datetime.datetime.strptime(string, "%a, %d %b %Y %H:%M:%S GMT")
+
 
 def _bulk_save_objects(model, objects):
     with app.app_context():

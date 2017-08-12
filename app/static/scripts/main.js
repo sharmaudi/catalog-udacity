@@ -20,11 +20,11 @@ $(document).on('click', '#close-preview', function(){
 
 $(function() {
     // Create the close button
-    var closebtn = $('<button/>', {
+    var closebtn = $('<button></button>', {
         type:"button",
         text: 'x',
         id: 'close-preview',
-        style: 'font-size: initial;',
+        style: 'font-size: initial;'
     });
     closebtn.attr("class","close pull-right");
     // Set the popover default content

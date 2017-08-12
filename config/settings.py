@@ -11,7 +11,7 @@ SERVER_NAME = 'localhost:8000'
 # Should be overriden using instance properties
 SECRET_KEY = 'ASecretStringGoesHere!!'
 
-# Database properties.
+# Database properties. Override in Instance config.
 SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/database.db"
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -40,3 +40,8 @@ DEBUG_TB_INTERCEPT_REDIRECTS = False
 
 # pagination
 ITEMS_PER_PAGE = 6
+
+# Important properties to override in instance config:
+# SECRET_KEY
+# OAUTH_CONFIG
+# SQLALCHEMY_DATABASE_URI

@@ -12,6 +12,11 @@ class Category(db.Model, ResourceMixin):
 
     def __init__(self, **kwargs):
         # Call Flask-SQLAlchemy's constructor.
+        """
+
+        :type kwargs: object
+        """
+        # noinspection PyArgumentList
         super(Category, self).__init__(**kwargs)
 
     @classmethod
@@ -53,6 +58,7 @@ class Item(db.Model, ResourceMixin):
     __table_args__ = (UniqueConstraint('name', 'category_id', name='_item_category_uc'),
                       )
 
+    # noinspection PyArgumentList
     def __init__(self, **kwargs):
         # Call Flask-SQLAlchemy's constructor.
         super(Item, self).__init__(**kwargs)
@@ -69,7 +75,7 @@ class Item(db.Model, ResourceMixin):
             'name': self.name,
             'description': self.description,
             'image': self.image,
-            'category_id':self.category_id,
+            'category_id': self.category_id,
             'created_on': self.created_on,
             'updated_on': self.updated_on
         }

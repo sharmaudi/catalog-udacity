@@ -34,27 +34,25 @@
 
         {% if current_user.is_authenticated %}
             <div class="row">
-            <div class="col-md-4">
-            </div>
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
+                <div class="col-md-4"></div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
                     <div class="btn-group btn-group-justified">
-                            <a class="btn btn-info"
-                       href="{{ url_for('catalog.edit_item', category=item.category.name, item=item.name) }}">Edit
-                        Item </a>
-                            <a class="btn btn-info "
-                       href="{{ url_for('catalog.upload_image', category=item.category.name, item=item.name) }}">Upload
-                        Image</a>
+                        <a class="btn btn-info"
+                           href="{{ url_for('catalog.edit_item', category=item.category.name, item=item.name) }}">Edit
+                            Item </a>
+                        <a class="btn btn-info "
+                           href="{{ url_for('catalog.upload_image', category=item.category.name, item=item.name) }}">Upload
+                            Image</a>
 
                         <a class="btn btn-warning "
-                       href="{{ url_for('catalog.delete_item', category=item.category.name, item=item.name) }}">Delete
-                        Item</a>
+                           href="{{ url_for('catalog.delete_item', category=item.category.name, item=item.name) }}">Delete
+                            Item</a>
 
                     </div>
-
-
+                </div>
             </div>
         {% endif %}
 
-        </div>
+    </div>
 {% endblock %}

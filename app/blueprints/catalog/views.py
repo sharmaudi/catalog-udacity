@@ -19,6 +19,7 @@ catalog = Blueprint('catalog', __name__, template_folder='templates')
 default_breadcrumb_root(catalog, '.')
 
 
+# noinspection PyUnusedLocal
 def view_catalog_dlc(*args, **kwargs):
     if 'category' in request.view_args:
         category = request.view_args['category']
@@ -28,24 +29,28 @@ def view_catalog_dlc(*args, **kwargs):
         return [{'text': 'Catalog', 'url': url_for('catalog.home')}]
 
 
+# noinspection PyUnusedLocal
 def view_item_dlc(*args, **kwargs):
     category = request.view_args['category']
     item = request.view_args['item']
     return [{'text': item, 'url': url_for('catalog.item_in_category', category=category, item=item)}]
 
 
+# noinspection PyUnusedLocal
 def edit_item_dlc(*args, **kwargs):
     category = request.view_args['category']
     item = request.view_args['item']
     return [{'text': f"Edit", 'url': url_for('catalog.edit_item', category=category, item=item)}]
 
 
+# noinspection PyUnusedLocal
 def upload_item_dlc(*args, **kwargs):
     category = request.view_args['category']
     item = request.view_args['item']
     return [{'text': f"Upload", 'url': url_for('catalog.upload_image', category=category, item=item)}]
 
 
+# noinspection PyUnusedLocal
 def delete_item_dlc(*args, **kwargs):
     category = request.view_args['category']
     item = request.view_args['item']

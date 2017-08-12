@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-md-4">
                                  <div class="thumbnail ">
-                                        <img src="{{ selected_category.image }}" alt="300x200 data-src="holder.js/300x200" style=""/>
+                                        <img src="{{ selected_category.image }}" alt="300x200" data-src="holder.js/300x200" style=""/>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                             </h2>
                             {% else %}
                             <h2>
-                                <a href="{{ url_for('catalog.item_in_category', category=item.category.name, item=item.name) }}">{{ item.name }} </span> </a>
+                                <a href="{{ url_for('catalog.item_in_category', category=item.category.name, item=item.name) }}">{{ item.name }}  </a>
                             </h2>
                             {% endif %}
                             <p class="descText">{{ item.description[:200] }}<a
