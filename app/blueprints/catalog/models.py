@@ -66,10 +66,10 @@ class Item(db.Model, ResourceMixin):
     @property
     def serialize(self):
         return {
-            'id': self.id,
             'name': self.name,
             'description': self.description,
             'image': self.image,
+            'category_id':self.category_id,
             'created_on': self.created_on,
             'updated_on': self.updated_on
         }
