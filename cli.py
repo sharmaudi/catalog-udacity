@@ -75,7 +75,6 @@ def _seed_catalog():
 
         for item in category['items']:
             items.append(Item(
-                id=item['id'],
                 name=item['name'],
                 description=item['description'],
                 category_id=category['id'],
