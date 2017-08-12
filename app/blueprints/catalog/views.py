@@ -194,5 +194,7 @@ def uploaded_file(filename):
 @catalog.route('/api/v1/catalog')
 def catalog_as_json():
     categories = Category.query.all()
-    result = [category.serialize for category in categories]
+    result = {
+        "Categories": [category.serialize for category in categories]
+    }
     return jsonify(result)
