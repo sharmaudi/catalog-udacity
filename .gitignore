@@ -97,3 +97,6 @@ ENV/
 
 .venv/
 test.py
+!/instance/settings.py.example
+!/instance/uploads/README
+app/images/
