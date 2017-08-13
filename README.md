@@ -68,24 +68,23 @@ Point your web browser to http://localhost:8000/
 ## Routes
     # The following routes are exposed by the app
         | Route                                                      | Endpoint                 | HTTP Methods             |
-|------------------------------------------------------------|--------------------------|--------------------------|
-| /api/v1/catalog                                            | catalog.catalog_as_json  | GET/ HEAD/ OPTIONS       |
-| /catalog/<string:category>/items                           | catalog.home             | GET/ HEAD/ OPTIONS/ POST |
-| /catalog/<string:category>/items/<int:page>                | catalog.home             | GET/ HEAD/ OPTIONS/ POST |
-| /catalog/<string:category>/items/<string:item>             | catalog.item_in_category | GET/ HEAD/ OPTIONS       |
-| /catalog/<string:category>/items/<string:item>/delete      | catalog.delete_item      | GET/ HEAD/ OPTIONS       |
-| /catalog/<string:category>/items/<string:item>/edit        | catalog.edit_item        | GET/ HEAD/ OPTIONS/ POST |
-| /catalog/<string:category>/items/<string:item>/edit/upload | catalog.upload_image     | GET/ HEAD/ OPTIONS/ POST |
-| /catalog/items                                             | catalog.home             | GET/ HEAD/ OPTIONS       |
-| /catalog/items/<int:page>                                  | catalog.home             | GET/ HEAD/ OPTIONS       |
-| /catalog/items/add                                         | catalog.add_item         | GET/ HEAD/ OPTIONS/ POST |
-| /login                                                     | user.login               | GET/ HEAD/ OPTIONS       |
-| /login/facebook                                            | facebook.login           | GET/ HEAD/ OPTIONS       |
-| /login/facebook/authorized                                 | facebook.authorized      | GET/ HEAD/ OPTIONS       |
-| /login/github                                              | github.login             | GET/ HEAD/ OPTIONS       |
-| /login/github/authorized                                   | github.authorized        | GET/ HEAD/ OPTIONS       |
-| /login/google                                              | google.login             | GET/ HEAD/ OPTIONS       |
-| /login/google/authorized                                   | google.authorized        | GET/ HEAD/ OPTIONS       |
-| /logout                                                    | user.logout              | GET/ HEAD/ OPTIONS       |
-| /static/<path:filename>                                    | static                   | GET/ HEAD/ OPTIONS       |
-| /uploads/<filename>                                        | catalog.uploaded_file    | GET/ HEAD/ OPTIONS       | 
+        | /api/v1/catalog                                            | catalog.catalog_as_json  | GET/ HEAD/ OPTIONS       |
+        | /catalog/<string:category>/items                           | catalog.home             | GET/ HEAD/ OPTIONS/ POST |
+        | /catalog/<string:category>/items/<int:page>                | catalog.home             | GET/ HEAD/ OPTIONS/ POST |
+        | /catalog/<string:category>/items/<string:item>             | catalog.item_in_category | GET/ HEAD/ OPTIONS       |
+        | /catalog/<string:category>/items/<string:item>/delete      | catalog.delete_item      | GET/ HEAD/ OPTIONS       |
+        | /catalog/<string:category>/items/<string:item>/edit        | catalog.edit_item        | GET/ HEAD/ OPTIONS/ POST |
+        | /catalog/<string:category>/items/<string:item>/edit/upload | catalog.upload_image     | GET/ HEAD/ OPTIONS/ POST |
+        | /catalog/items                                             | catalog.home             | GET/ HEAD/ OPTIONS       |
+        | /catalog/items/<int:page>                                  | catalog.home             | GET/ HEAD/ OPTIONS       |
+        | /catalog/items/add                                         | catalog.add_item         | GET/ HEAD/ OPTIONS/ POST |
+        | /login                                                     | user.login               | GET/ HEAD/ OPTIONS       |
+        | /login/facebook                                            | facebook.login           | GET/ HEAD/ OPTIONS       |
+        | /login/facebook/authorized                                 | facebook.authorized      | GET/ HEAD/ OPTIONS       |
+        | /login/github                                              | github.login             | GET/ HEAD/ OPTIONS       |
+        | /login/github/authorized                                   | github.authorized        | GET/ HEAD/ OPTIONS       |
+        | /login/google                                              | google.login             | GET/ HEAD/ OPTIONS       |
+        | /login/google/authorized                                   | google.authorized        | GET/ HEAD/ OPTIONS       |
+        | /logout                                                    | user.logout              | GET/ HEAD/ OPTIONS       |
+        | /static/<path:filename>                                    | static                   | GET/ HEAD/ OPTIONS       |
+        | /uploads/<filename>                                        | catalog.uploaded_file    | GET/ HEAD/ OPTIONS       | 
