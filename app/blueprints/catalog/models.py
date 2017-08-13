@@ -52,7 +52,9 @@ class Item(db.Model, ResourceMixin):
     name = db.Column(db.String(256))
     description = db.Column(db.String())
     image = db.Column(db.String())
-    category_id = db.Column(db.Integer, db.ForeignKey(Category.id))
+    category_id = db.Column(db.Integer, db.ForeignKey(Category.id,
+                                                      onupdate="CASCADE",
+                                                      ondelete="CASCADE"))
     category = db.relationship(Category)
 
     __table_args__ = (UniqueConstraint('name', 'category_id', name='_item_category_uc'),
