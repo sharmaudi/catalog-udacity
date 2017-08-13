@@ -12,16 +12,13 @@ and middleware
 
 ## Cloning the code base
 
-    # Clone the code repository into ~/dev/catalog
-    mkdir -p ~/dev
-    cd ~/dev
+    # Clone the code repository 
     git clone https://github.com/sharmaudi/catalog-udacity.git
 
-    # Create the 'my_app' virtual environment. The codebase uses f-strings and is therefore dependent on python 3.6
+    # Create the '.venv' virtual environment. The codebase uses f-strings and is therefore dependent on python 3.6
 
     # Install required Python packages
-    cd ~/dev/my_app
-    workon my_app
+    cd catalog-udacity
     pip install -r requirements.txt
     
     
@@ -34,20 +31,20 @@ Common settings are found in `config/settings.py`. This file is checked into the
 Environment specific settings are stored in `instance/settings.py` that is NOT stored in the code repository.
 The example `instance/settings.py.example` can be used as a starting point::
 
-    cd ~/dev/my_app
-    cp app/settings.py.example instance/settings.py
+    cd catalog-udacity
+    cp instance/settings.py.example instance/settings.py
 
 Configure `instance/settings.py`.
 
 ## Configuring the Database server
 
-Edit ~/dev/my_app/instance/settings.py.
+Edit instance/settings.py.
 
 Make sure to configure the SQLALCHEMY_DATABASE_URI setting correctly.
 
 ## Configuring Social Providers
 
-Edit ~/dev/my_app/instance/settings.py.
+Edit instance/settings.py.
 
 Make sure to configure the OAUTH_CONFIG setting correctly. The instance/settings.py.example file can be used for reference.
 
@@ -55,7 +52,6 @@ Make sure to configure the OAUTH_CONFIG setting correctly. The instance/settings
 
     # Create DB tables and populate the catalog tables
     python cli.py init --with-data
-
 
 ## Running the app
 
