@@ -4,6 +4,7 @@ from sqlalchemy_utils import database_exists, create_database
 
 from app.app import create_app
 from app.blueprints.catalog.models import Category, Item
+from app.blueprints.user.models import User
 from app.extensions import db
 import json
 import datetime
@@ -46,6 +47,10 @@ def init(with_testdb, with_data):
         if not database_exists(db_uri):
             create_database(db_uri)
 
+    user = User()
+    user.username = "admin@catalogapp.com"
+    user.save()
+
     if with_data:
         _seed_catalog()
     return None
@@ -80,7 +85,8 @@ def _seed_catalog():
                 category_id=category['id'],
                 image=item['image'],
                 created_on=_get_date(category['created_on']),
-                updated_on=_get_date(category['updated_on'])
+                updated_on=_get_date(category['updated_on']),
+                created_by='admin@catalogapp.com'
             ))
 
     print(f"Creating {len(categories)} categories")

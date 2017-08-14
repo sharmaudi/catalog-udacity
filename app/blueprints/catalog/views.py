@@ -5,7 +5,7 @@ import bleach
 from flask import Blueprint, render_template, flash, redirect, url_for, request, current_app, send_from_directory, \
     jsonify
 from flask_breadcrumbs import register_breadcrumb, default_breadcrumb_root
-from flask_login import login_required
+from flask_login import login_required, current_user
 from markupsafe import Markup
 from werkzeug.utils import secure_filename
 
@@ -99,10 +99,10 @@ def add_item():
         form.description = bleach.clean(form.description)
         form.name = bleach.clean(form.name)
         form.populate_obj(item)
+        item.created_by = current_user.username
         print(f"Creating item ${item}")
-        flash("Item Created Successfully", "success")
-
         item.save()
+        flash("Item Created Successfully", "success")
         return redirect(url_for('catalog.edit_item', category=item.category.name, item=item.name))
 
     return render_template('catalog/item_create_or_update.html', form=form, upload_form=upload_form)
@@ -110,10 +110,14 @@ def add_item():
 
 @catalog.route('/catalog/<string:category>/items/<string:item>/edit', methods=['GET', 'POST'])
 @register_breadcrumb(catalog, '.item.edit', '', dynamic_list_constructor=edit_item_dlc)
-@csrf.exempt
 @login_required
 def edit_item(category, item):
     selected_item = Item.get_item(category, item)
+    authorized = check_authorization(selected_item)
+    if not authorized:
+        flash("You are not authorized to do that operation.", "error")
+        return redirect(url_for('catalog.item_in_category', category=category, item=item))
+
     form = ItemForm(obj=selected_item)
     form.category_id.choices = choices_from_dict(Category.get_categories_as_dict())
     if form.validate_on_submit():
@@ -139,6 +143,12 @@ def edit_item(category, item):
 def upload_image(category, item):
     print("In upload image")
     selected_item = Item.get_item(category, item)
+
+    authorized = check_authorization(selected_item)
+    if not authorized:
+        flash("You are not authorized to do that operation.", "error")
+        return redirect(url_for('catalog.item_in_category', category=category, item=item))
+
     form = UploadForm()
     print(form.image.data)
 
@@ -169,6 +179,12 @@ def upload_image(category, item):
 @login_required
 def delete_item(category, item):
     selected_item = Item.get_item(category, item)
+
+    authorized = check_authorization(selected_item)
+    if not authorized:
+        flash("You are not authorized to do that operation.", "error")
+        return redirect(url_for('catalog.item_in_category', category=category, item=item))
+
     confirm_flag = request.args.get('confirm')
 
     markup = "Please confirm that you " \
@@ -203,3 +219,11 @@ def catalog_as_json():
         "Categories": [category.serialize for category in categories]
     }
     return jsonify(result)
+
+
+def check_authorization(item):
+    logged_in_user = current_user.username
+    if item.created_by == logged_in_user:
+        return True
+    return False
+

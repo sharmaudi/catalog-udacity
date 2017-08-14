@@ -1,5 +1,6 @@
 from sqlalchemy import func, UniqueConstraint
 
+from app.blueprints.user.models import User
 from app.extensions import db
 from app.mixins.sqlalchemy_resource_mixin import ResourceMixin
 
@@ -56,6 +57,8 @@ class Item(db.Model, ResourceMixin):
                                                       onupdate="CASCADE",
                                                       ondelete="CASCADE"))
     category = db.relationship(Category)
+
+    created_by = db.Column(db.String(), db.ForeignKey(User.username))
 
     __table_args__ = (UniqueConstraint('name', 'category_id', name='_item_category_uc'),
                       )
