@@ -14,11 +14,14 @@ and middleware
 
     # Clone the code repository 
     git clone https://github.com/sharmaudi/catalog-udacity.git
-
-    # Create the '.venv' virtual environment. The codebase uses f-strings and is therefore dependent on python 3.6
-
-    # Install required Python packages
     cd catalog-udacity
+
+    # Create the virtual environment. The codebase uses f-strings and is therefore dependent on python 3.6.
+    #You can use the following commands in a mac to create and activate a virtualenv. Please check the documentation for other environments.
+    python3.6 -m venv .venv
+    source activate .venv
+    
+    # Install required Python packages
     pip install -r requirements.txt
     
     
@@ -47,6 +50,55 @@ Make sure to configure the SQLALCHEMY_DATABASE_URI setting correctly.
 Edit instance/settings.py.
 
 Make sure to configure the OAUTH_CONFIG setting correctly. The instance/settings.py.example file can be used for reference.
+
+### Setup google as OAuth Provider
+- Open the Credentials page in the API Console.
+  https://console.developers.google.com/apis/credentials
+- Click Create credentials > OAuth client ID.
+- Complete the form. Set the application type to Web application.
+- Set the redirect uri as **http&#58;//localhost:8000/login/google/authorized**
+- You will be presented with a client id and client secret. Set them in instance/settings.py. e.g
+    ```
+        OAUTH_CONFIG = {
+            "GOOGLE": {
+                "client_id": "444922280xxx-0lo6xxxxxxxxr07gjqsmlxxxxx.apps.googleusercontent.com",
+                "client_secret": "KefaskxxhwhoBdKxxxxxxxxxx"
+            }
+        }
+    ```
+
+Please visit https://developers.google.com/identity/protocols/OAuth2WebServer for more details.   
+    
+### Setup facebook as OAuth Provider
+- Follow facebooks documentation to setup a client id and secret.
+- Set the redirect uri as **http&#58;//localhost:8000/login/facebook/authorized**
+- Add the client-id and secret in instance/setting.py like so
+    ```
+        OAUTH_CONFIG = {
+            "FACEBOOK": {
+                "client_id": "xxxxxxxxxxxxxxxxxxx",
+                "client_secret": "xxxxxxxxxxxxxxxx"
+            }
+        }
+    ```
+
+
+
+### Setup Github as OAuth Provider
+- Follow github documentation to setup a client id and secret.
+- Set the redirect uri as **http&#58;//localhost:8000/login/github/authorized**
+- Add the client-id and secret in instance/setting.py like so
+    ```
+        OAUTH_CONFIG = {
+            "GITHUB": {
+                "client_id": "xxxxxxxxxxxxxxxxxxx",
+                "client_secret": "xxxxxxxxxxxxxxxx"
+            }
+        }
+    ```
+
+
+
 
 ## Initializing the Database
 
