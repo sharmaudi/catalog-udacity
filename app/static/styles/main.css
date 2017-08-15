@@ -197,14 +197,12 @@ body {
     left: 0;
   }
 
-  .row-offcanvas-right,
-  .sidebar-offcanvas {
+  .row-offcanvas-right .sidebar-offcanvas {
     right: -60%; /* 6 columns */
   }
 
     /*noinspection CssUnusedSymbol*/
-    .row-offcanvas-left,
-  .sidebar-offcanvas {
+  .row-offcanvas-left .sidebar-offcanvas {
     left: -60%; /* 6 columns */
   }
 
